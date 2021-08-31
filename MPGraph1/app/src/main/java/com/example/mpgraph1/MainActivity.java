@@ -6,12 +6,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -82,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
         }
         legend.setCustom(legendEntries);
 
+        /** AXES **/
+        XAxis xAxis = mpLineChart.getXAxis();
+        YAxis yAxisLeft = mpLineChart.getAxisLeft();
+        YAxis yAxisRight = mpLineChart.getAxisRight();
+        xAxis.setValueFormatter(new MyAxisValueFormatter());
+        xAxis.setLabelCount(3, true);
+
+
+
         /** DESCRIPTION  **/
         Description description = new Description();
         description.setText("myTxt");
@@ -122,5 +136,14 @@ public class MainActivity extends AppCompatActivity {
         public String getFormattedValue(float value) {
             return value + " £";
         }
+    }
+
+    private class MyAxisValueFormatter extends ValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value) {
+            return "Day " + value;
+        }
+
     }
 }
