@@ -12,7 +12,10 @@ import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 
@@ -21,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     // https://www.youtube.com/watch?v=yrbgN2UvKGQ
     LineChart mpLineChart;
     int mycolorArray[] = {R.color.mycolour1, R.color.mycolour2, R.color.mycolour3, R.color.mycolour4};
-    int[] colorClassArray = new int[] {Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA};
+    int[] colorClassArray = new int[]{Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA};
     String[] legendName = {"Cow", "Dog", "Cat", "Bat"};
 
     @Override
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mpLineChart.setDrawGridBackground(true);
         mpLineChart.setDrawBorders(true);
         mpLineChart.setBorderColor(Color.RED);
-  //      mpLineChart.setBorderWidth(5);
+        //      mpLineChart.setBorderWidth(5);
 
         /** LINE **/
         lineDataSet1.setLineWidth(4);
@@ -58,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         lineDataSet1.setValueTextColor(Color.BLUE);
         lineDataSet1.enableDashedLine(5, 10, 0);
         lineDataSet1.setColors(mycolorArray, MainActivity.this);
+        lineDataSet1.setValueFormatter(new MyValeFormatter());
+
 
         /** LEGEND **/
         Legend legend = mpLineChart.getLegend();
@@ -69,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         legend.setXEntrySpace(5);
         legend.setFormToTextSpace(10);
         LegendEntry[] legendEntries = new LegendEntry[4];
-        for (int i=0; i<legendEntries.length; i++){
+        for (int i = 0; i < legendEntries.length; i++) {
             LegendEntry entry = new LegendEntry();
             entry.formColor = colorClassArray[i];
             entry.label = String.valueOf(legendName[i]);
-            legendEntries[i]=entry;
+            legendEntries[i] = entry;
         }
         legend.setCustom(legendEntries);
 
@@ -86,12 +91,12 @@ public class MainActivity extends AppCompatActivity {
 
         /** PLOT **/
         LineData data = new LineData(dataSets);
+
         mpLineChart.setData(data);
         mpLineChart.invalidate();
     }
 
-    private ArrayList<Entry> dataValues1()
-    {
+    private ArrayList<Entry> dataValues1() {
         ArrayList<Entry> dataVals = new ArrayList<Entry>();
         dataVals.add(new Entry(0, 20));
         dataVals.add(new Entry(1, 24));
@@ -101,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
         return dataVals;
     }
 
-    private ArrayList<Entry> dataValues2()
-    {
+    private ArrayList<Entry> dataValues2() {
         ArrayList<Entry> dataVals = new ArrayList<Entry>();
         dataVals.add(new Entry(0, 12));
         dataVals.add(new Entry(2, 16));
@@ -110,5 +114,13 @@ public class MainActivity extends AppCompatActivity {
         dataVals.add(new Entry(5, 1));
         dataVals.add(new Entry(7, 18));
         return dataVals;
+    }
+
+    /* Add pound sign to values */
+    private class MyValeFormatter extends ValueFormatter {
+        @Override
+        public String getFormattedValue(float value) {
+            return value + " £";
+        }
     }
 }
