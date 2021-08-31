@@ -2,9 +2,11 @@ package com.example.mpgraph1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -29,6 +31,22 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet1);
         dataSets.add(lineDataSet2);
+
+//        mpLineChart.setBackgroundColor(Color.GREEN);
+        mpLineChart.setNoDataText("No Data");
+        mpLineChart.setNoDataTextColor(Color.BLUE);
+
+        mpLineChart.setDrawGridBackground(true);
+        mpLineChart.setDrawBorders(true);
+        mpLineChart.setBorderColor(Color.RED);
+        mpLineChart.setBorderWidth(5);
+
+        Description description = new Description();
+        description.setText("my descrip");
+        description.setTextColor(Color.MAGENTA);
+        description.setTextSize(20);
+        mpLineChart.setDescription(description);
+
 
         LineData data = new LineData(dataSets);
         mpLineChart.setData(data);
