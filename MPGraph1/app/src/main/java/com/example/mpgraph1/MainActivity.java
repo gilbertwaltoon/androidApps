@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -107,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
         LineData data = new LineData(dataSets);
 
         mpLineChart.setData(data);
+
+        /** animate **/
+        mpLineChart.animateXY(5000, 4000, Easing.EaseInOutBounce);
+
+
         mpLineChart.invalidate();
     }
 
