@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     // https://www.youtube.com/watch?v=yrbgN2UvKGQ
     LineChart mpLineChart;
-    int colourArray[] = {R.color.mycolour1, R.color.mycolour2, R.color.mycolour3, R.color.mycolour4};
+    int mycolorArray[] = {R.color.mycolour1, R.color.mycolour2, R.color.mycolour3, R.color.mycolour4};
     int[] colorClassArray = new int[] {Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA};
     String[] legendName = {"Cow", "Dog", "Cat", "Bat"};
 
@@ -45,6 +45,21 @@ public class MainActivity extends AppCompatActivity {
         mpLineChart.setBorderColor(Color.RED);
   //      mpLineChart.setBorderWidth(5);
 
+        /** LINE **/
+        lineDataSet1.setLineWidth(4);
+        lineDataSet1.setColor(Color.RED);
+        lineDataSet1.setDrawCircles(true);
+        lineDataSet1.setDrawCircleHole(false);
+        lineDataSet1.setCircleColor(Color.GRAY);
+        lineDataSet1.setCircleHoleColor(Color.GREEN);
+        lineDataSet1.setCircleRadius(10);
+        lineDataSet1.setCircleHoleRadius(9);
+        lineDataSet1.setValueTextSize(10);
+        lineDataSet1.setValueTextColor(Color.BLUE);
+        lineDataSet1.enableDashedLine(5, 10, 0);
+        lineDataSet1.setColors(mycolorArray, MainActivity.this);
+
+        /** LEGEND **/
         Legend legend = mpLineChart.getLegend();
         legend.setEnabled(true);
         legend.setTextColor(Color.RED);
@@ -53,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         legend.setFormSize(10);
         legend.setXEntrySpace(5);
         legend.setFormToTextSpace(10);
-
         LegendEntry[] legendEntries = new LegendEntry[4];
         for (int i=0; i<legendEntries.length; i++){
             LegendEntry entry = new LegendEntry();
@@ -63,13 +77,14 @@ public class MainActivity extends AppCompatActivity {
         }
         legend.setCustom(legendEntries);
 
-
+        /** DESCRIPTION  **/
         Description description = new Description();
         description.setText("myTxt");
         description.setTextColor(Color.MAGENTA);
         description.setTextSize(20);
         mpLineChart.setDescription(description);
 
+        /** PLOT **/
         LineData data = new LineData(dataSets);
         mpLineChart.setData(data);
         mpLineChart.invalidate();
