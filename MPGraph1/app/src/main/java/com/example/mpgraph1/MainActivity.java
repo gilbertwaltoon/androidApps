@@ -25,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
         mpLineChart = (LineChart) findViewById(R.id.line_chart);
         LineDataSet lineDataSet1 = new LineDataSet(dataValues1(), "Data Set 1");
+        LineDataSet lineDataSet2 = new LineDataSet(dataValues2(), "Data Set 2");
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet1);
+        dataSets.add(lineDataSet2);
 
         LineData data = new LineData(dataSets);
         mpLineChart.setData(data);
@@ -41,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
         dataVals.add(new Entry(2, 2));
         dataVals.add(new Entry(3, 10));
         dataVals.add(new Entry(4, 28));
+        return dataVals;
+    }
+
+    private ArrayList<Entry> dataValues2()
+    {
+        ArrayList<Entry> dataVals = new ArrayList<Entry>();
+        dataVals.add(new Entry(0, 12));
+        dataVals.add(new Entry(2, 16));
+        dataVals.add(new Entry(3, 23));
+        dataVals.add(new Entry(5, 1));
+        dataVals.add(new Entry(7, 18));
         return dataVals;
     }
 }
