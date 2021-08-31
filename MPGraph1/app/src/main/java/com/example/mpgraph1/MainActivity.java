@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -18,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     // https://www.youtube.com/watch?v=yrbgN2UvKGQ
     LineChart mpLineChart;
-
+    int colourArray[] = {R.color.mycolour1, R.color.mycolour2, R.color.mycolour3, R.color.mycolour4};
+    int[] colorClassArray = new int[] {Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA};
+    String[] legendName = {"Cow", "Dog", "Cat", "Bat"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +43,32 @@ public class MainActivity extends AppCompatActivity {
         mpLineChart.setDrawGridBackground(true);
         mpLineChart.setDrawBorders(true);
         mpLineChart.setBorderColor(Color.RED);
-        mpLineChart.setBorderWidth(5);
+  //      mpLineChart.setBorderWidth(5);
+
+        Legend legend = mpLineChart.getLegend();
+        legend.setEnabled(true);
+        legend.setTextColor(Color.RED);
+        legend.setTextSize(15);
+        legend.setForm(Legend.LegendForm.LINE);
+        legend.setFormSize(10);
+        legend.setXEntrySpace(5);
+        legend.setFormToTextSpace(10);
+
+        LegendEntry[] legendEntries = new LegendEntry[4];
+        for (int i=0; i<legendEntries.length; i++){
+            LegendEntry entry = new LegendEntry();
+            entry.formColor = colorClassArray[i];
+            entry.label = String.valueOf(legendName[i]);
+            legendEntries[i]=entry;
+        }
+        legend.setCustom(legendEntries);
+
 
         Description description = new Description();
-        description.setText("my descrip");
+        description.setText("myTxt");
         description.setTextColor(Color.MAGENTA);
         description.setTextSize(20);
         mpLineChart.setDescription(description);
-
 
         LineData data = new LineData(dataSets);
         mpLineChart.setData(data);
