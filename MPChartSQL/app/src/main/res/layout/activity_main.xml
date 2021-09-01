@@ -23,13 +23,13 @@
         android:id="@+id/editTextY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/editTextX"
-        android:layout_marginTop="12dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="72dp"
         android:ems="10"
         android:hint="@string/y_value"
-        android:inputType="number"
-        />
+        android:inputType="number" />
 
     <Button
         android:id="@+id/btnInsert"
@@ -46,7 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/btnInsert"
         android:layout_alignTop="@+id/editTextY"
-        android:text="@string/show"/>
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/show" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/mpChart"

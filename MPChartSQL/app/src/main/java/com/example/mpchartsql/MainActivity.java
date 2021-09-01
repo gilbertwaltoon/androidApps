@@ -17,6 +17,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 
+
+// https://www.youtube.com/watch?v=clcD3wa9JP8&list=PLFh8wpMiEi89LcBupeftmAcgDKCeC24bJ&index=16
+
 public class MainActivity extends AppCompatActivity {
 
     LineChart lineChart;
