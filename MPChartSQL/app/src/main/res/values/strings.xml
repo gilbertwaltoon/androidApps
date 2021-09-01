@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MPChartSQL</string>
+    <string name="insert">Insert</string>
+    <string name="show">Show</string>
+    <string name="x_value">X Value</string>
+    <string name="y_value">Y Value</string>
+</resources>
