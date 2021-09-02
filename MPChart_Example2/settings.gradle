@@ -7,6 +7,5 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "MPGraph1"
+rootProject.name = "MPChart_Example2"
 include ':app'
-
