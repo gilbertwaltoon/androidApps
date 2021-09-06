@@ -7,6 +7,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -109,14 +110,13 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             }
-
-
         });
 
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
         Toast.makeText(getApplicationContext(), "Done queue.add(stringRequest).",
                 Toast.LENGTH_SHORT).show();
+        Log.v("wibble", "wobble");
 
 
     }
