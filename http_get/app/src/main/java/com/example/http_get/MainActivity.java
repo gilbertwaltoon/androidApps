@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://www.google.com";
-       // String url = "http://neverssl";
+        // String url = "http://neverssl.com"; // HTTP works also  - but see
+        // https://stackoverflow.com/questions/51902629/how-to-allow-all-network-connection-types-http-and-https-in-android-9-pie
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
