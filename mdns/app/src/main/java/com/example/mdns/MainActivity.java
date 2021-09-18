@@ -2,58 +2,113 @@ package com.example.mdns;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.net.nsd.NsdManager;
-import android.net.nsd.NsdServiceInfo;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import java.net.InetAddress;
 
 
 public class MainActivity extends AppCompatActivity {
 
-     private NsdManager mNsdManager;
-     private NsdManager.DiscoveryListener mDiscoveryListener;
-     private NsdManager.ResolveListener mResolveListener;
-     private NsdServiceInfo mServiceInfo;
-     public String mRPiAddress;
+    NsdHelper mNsdHelper;
+
+    public static final String TAG = "NSD";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+        mNsdHelper = new NsdHelper(this);
+        mNsdHelper.initializeNsd();
+        mNsdHelper.discoverServices();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mNsdHelper != null) {
+            mNsdHelper.initializeNsd();
+            mNsdHelper.discoverServices();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mNsdHelper.tearDown();
+        super.onDestroy();
+    }
+
+}
+
+
+/* public class MainActivity extends AppCompatActivity {
+
+    private NsdManager nsdManager;
+    private NsdManager.DiscoveryListener discoveryListener;
+    private NsdManager.ResolveListener resolveListener;
+    private NsdServiceInfo mServiceInfo;
+    public String mRPiAddress;
     // The NSD service type that the RPi exposes.
-      private static final String SERVICE_TYPE = "_workstation._tcp.";
-    //private static final String SERVICE_TYPE = "_services._dns-sd._udp";
+    //  private static final String SERVICE_TYPE = "_workstation._tcp.";
+    // Use string below generic interrogtation / report on household services
+    private static final String SERVICE_TYPE = "_services._dns-sd._udp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRPiAddress = "";
-        mNsdManager = (NsdManager) (getApplicationContext().getSystemService(Context.NSD_SERVICE));
+        nsdManager = (NsdManager) (getApplicationContext().getSystemService(Context.NSD_SERVICE));
         initializeResolveListener();
         initializeDiscoveryListener();
-        mNsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, mDiscoveryListener);
+        nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
     }
+
+
+
+    // NsdHelper's tearDown method
+    public void tearDown() {
+       // nsdManager.unregisterService(registrationListener);
+        nsdManager.stopServiceDiscovery(discoveryListener);
+    }
+
+}
 
     private void initializeDiscoveryListener() {
 
         // Instantiate a new DiscoveryListener
-        mDiscoveryListener = new NsdManager.DiscoveryListener() {
+        discoveryListener = new NsdManager.DiscoveryListener() {
 
             //  Called as soon as service discovery begins.
             @Override
             public void onDiscoveryStarted(String regType) {
+                Log.d("NSD", "Service discovery started");
             }
 
             @Override
             public void onServiceFound(NsdServiceInfo service) {
-                Toast.makeText(getApplicationContext(), "Found",
-                        Toast.LENGTH_LONG).show();
                 // A service was found!  Do something with it.
-                String name = service.getServiceName();
+                // A service was found! Do something with it.
+                Log.d("NSD", "Service discovery success" + service);
+                if (!service.getServiceType().equals(SERVICE_TYPE)) {
+                    // Service type is the string containing the protocol and
+                    // transport layer for this service.
+                    Log.d("NSD", "Unknown Service Type: " + service.getServiceType());
+                } else if (service.getServiceName().contains("gilbert")){
+                    nsdManager.resolveService(service, resolveListener);
+                }
+            }
+            /*    String name = service.getServiceName();
                 String type = service.getServiceType();
                 Log.d("NSD", "Service Name=" + name);
                 Log.d("NSD", "Service Type=" + type);
-            if (type.equals(SERVICE_TYPE) && name.contains(RASPEBERTU_PI_NAME_IN_QUOTES)) {
+           // if (type.equals(SERVICE_TYPE) && name.contains("gilbert")) {
+                if (name.contains("sonos")) {
                     Log.d("NSD", "Service Found @ '" + name + "'");
                     mNsdManager.resolveService(service, mResolveListener);
                 }
@@ -63,37 +118,41 @@ public class MainActivity extends AppCompatActivity {
             public void onServiceLost(NsdServiceInfo service) {
                 // When the network service is no longer available.
                 // Internal bookkeeping code goes here.
+                Log.e("NSD", "service lost: " + service);
             }
 
             @Override
             public void onDiscoveryStopped(String serviceType) {
+                Log.i("NSD", "Discovery stopped: " + serviceType);
             }
 
             @Override
             public void onStartDiscoveryFailed(String serviceType, int errorCode) {
-                mNsdManager.stopServiceDiscovery(this);
+                Log.e("NSD", "Discovery failed: Error code:" + errorCode);
+                nsdManager.stopServiceDiscovery(this);
             }
 
             @Override
             public void onStopDiscoveryFailed(String serviceType, int errorCode) {
-                mNsdManager.stopServiceDiscovery(this);
+                Log.e("NSD", "Discovery failed: Error code:" + errorCode);
+                nsdManager.stopServiceDiscovery(this);
             }
         };
     }
 
     private void initializeResolveListener() {
-        mResolveListener = new NsdManager.ResolveListener() {
+        resolveListener = new NsdManager.ResolveListener() {
 
             @Override
             public void onResolveFailed(NsdServiceInfo serviceInfo, int errorCode) {
                 // Called when the resolve fails.  Use the error code to debug.
-                Log.e("NSD", "Resolve failed" + errorCode);
+                Log.e("NSD", "Resolve failed: " + errorCode);
             }
 
             @Override
             public void onServiceResolved(NsdServiceInfo serviceInfo) {
-                Toast.makeText(getApplicationContext(), "onservice resolved",
-                        Toast.LENGTH_SHORT).show();
+                Log.d("NSD", "Service Resolved");
+
 
                 mServiceInfo = serviceInfo;
 
@@ -103,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
                 InetAddress host = mServiceInfo.getHost();
                 String address = host.getHostAddress();
                 Log.d("NSD", "Resolved address = " + address);
-                mRPiAddress = address;
+
             }
         };
     }
-}
+}  */
