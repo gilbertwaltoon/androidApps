@@ -58,7 +58,7 @@ public class WiFiListAdapter extends ArrayAdapter<WiFiAccessPoint> {
     }
 
     private int getRssiLevel(int rssiValue) {
-
+// received signal strength indicator
         if (rssiValue > -50) {
             return 3;
         } else if (rssiValue >= -60) {
