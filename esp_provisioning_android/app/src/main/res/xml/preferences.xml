@@ -6,7 +6,7 @@
         app:title="@string/device_settings">
 
         <ListPreference
-            app:defaultValue="both"
+            app:defaultValue="softap"
             app:entries="@array/device_entries"
             app:entryValues="@array/device_values"
             app:iconSpaceReserved="false"
@@ -14,12 +14,12 @@
             app:title="@string/device_selection_title"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreferenceCompat
+        <!--SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="security_type"
             app:summary="@string/summary_security"
-            app:title="@string/security_selection_title" />
+            app:title="@string/security_selection_title" /-->
 
     </PreferenceCategory>
 

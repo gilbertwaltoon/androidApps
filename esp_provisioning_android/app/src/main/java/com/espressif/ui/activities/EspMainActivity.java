@@ -186,7 +186,7 @@ public class EspMainActivity extends AppCompatActivity {
 
         } else {
 
-            if (deviceType.equals(AppConstants.DEVICE_TYPE_BLE) || deviceType.equals(AppConstants.DEVICE_TYPE_BOTH)) {
+  /*          if (deviceType.equals(AppConstants.DEVICE_TYPE_BLE) || deviceType.equals(AppConstants.DEVICE_TYPE_BOTH)) {
 
                 final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
                 BluetoothAdapter bleAdapter = bluetoothManager.getAdapter();
@@ -197,9 +197,9 @@ public class EspMainActivity extends AppCompatActivity {
                 } else {
                     startProvisioningFlow();
                 }
-            } else {
+            } else {*/
                 startProvisioningFlow();
-            }
+            //}
         }
     }
 
