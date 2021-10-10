@@ -15,11 +15,12 @@ public class NsdHelper {
     NsdManager.DiscoveryListener mDiscoveryListener;
     NsdManager.RegistrationListener mRegistrationListener;
 
-    private static final String SERVICE_TYPE = "_gilbert._tcp.";
+    private static final String SERVICE_TYPE = "_gilbertx._tcp.";
     //private static final String SERVICE_TYPE = "_services._dns-sd._udp";
 
     private static final String TAG = "NSD";
-    private String mServiceName = "esp32";
+   // private String mServiceName = "myappService";
+   private String esp32ServiceName = "esp32";
 
     // First step : register a NsdServiceInfo object to advertise your service
     NsdServiceInfo mService;
@@ -31,7 +32,7 @@ public class NsdHelper {
 
 
     public void initializeNsd() {
-        initializeRegistrationListener();
+       // initializeRegistrationListener();
         initializeDiscoveryListener();
         initializeResolveListener();
 
@@ -39,7 +40,7 @@ public class NsdHelper {
 
 
     // Check success of service registration
-    public void initializeRegistrationListener() {
+    /*public void initializeRegistrationListener() {
         mRegistrationListener = new NsdManager.RegistrationListener() {
 
             @Override
@@ -65,6 +66,7 @@ public class NsdHelper {
         };
     }
 
+    // register any services to be advertised
     public void registerService(int port) {
         NsdServiceInfo serviceInfo = new NsdServiceInfo();
         serviceInfo.setPort(port);
@@ -74,7 +76,7 @@ public class NsdHelper {
         mNsdManager.registerService(
                 serviceInfo, NsdManager.PROTOCOL_DNS_SD, mRegistrationListener);
 
-    }
+    }*/
 
     // To discover services of the type you're looking for on the network
     public void initializeDiscoveryListener() {
@@ -96,7 +98,7 @@ public class NsdHelper {
                 //} //else if (service.getServiceName().equals(mServiceName)) {
                    // Log.d(TAG, "Same machine: " + mServiceName);
                 };
-                if (service.getServiceName().contains(mServiceName)) {
+                if (service.getServiceName().contains(esp32ServiceName)) {
                     mNsdManager.resolveService(service, mResolveListener);
                 };
             }
@@ -146,7 +148,7 @@ public class NsdHelper {
 
             @Override
             public void onServiceResolved(NsdServiceInfo serviceInfo) {
-                Log.e(TAG, "Resolve Succeeded. " + serviceInfo);
+                Log.d(TAG, "Resolve Succeeded. " + serviceInfo);
 
               /*  if (serviceInfo.getServiceName().equals(mServiceName)) {
                     Log.d(TAG, "Same IP.");
